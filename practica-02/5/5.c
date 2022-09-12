@@ -1,4 +1,3 @@
-// WIP
 #include <stdio.h>
 
 #define T 50
@@ -17,7 +16,7 @@ void imprimirTabla(t_personas personas[N]);
 
 int main(void)
 {
-    t_personas personas[N];
+    t_personas personas[N] = {0};
 
     cargarTabla(personas, "./personas.txt");
     imprimirTabla(personas);
@@ -32,12 +31,11 @@ void cargarTabla(t_personas personas[N], char nomArch[T])
 
     arch = fopen(nomArch, "r");
 
-    r = fscanf(arch, "%d, %[^,]s, %[^\n]s\n", &personas[i].dni, personas[i].nombre, personas[i].pais);
-    while ((r != EOF) && (i < N))
+    r = fscanf(arch, "%d, %[^,], %[^\n]", &personas[i].dni, personas[i].nombre, personas[i].pais);
+
+    for (i = 1; r != EOF && i < N; i++)
     {
-        r = fscanf(arch, "%d, %[^,]s, %[^\n]s\n", &personas[i].dni, personas[i].nombre, personas[i].pais);
-        personas[i].pais = '\0';
-        i++;
+        r = fscanf(arch, "%d, %[^,], %[^\n]", &personas[i].dni, personas[i].nombre, personas[i].pais);
     }
 
     fclose(arch);
@@ -45,16 +43,13 @@ void cargarTabla(t_personas personas[N], char nomArch[T])
 
 void imprimirTabla(t_personas personas[N])
 {
-    int i, j;
+    int i;
 
-    printf("%-10s %15s %10s", "Documento", "Nombre", "Pais\n");
-    printf("==========================================================\n");
-    for (i = 0; i < N; i++)
+    printf("\n%-15s %-15s %-5s", "Documento", "Nombre", "Pais\n");
+    printf("==========================================\n");
+    for (i = 0; i < N && personas[i].dni != 0; i++)
     {
-        for (j = 0; j < N; j++)
-        {
-            printf("%-10d %15s %10s\n", personas[i].dni, personas[i].nombre, personas[i].pais);
-        }
+        printf("%-15d %-15s %-5s\n", personas[i].dni, personas[i].nombre, personas[i].pais);
     }
     printf("\n");
 }
