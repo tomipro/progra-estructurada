@@ -11,6 +11,7 @@ typedef struct s_info t_info;
 
 void cargarMat(t_info info[N], char nomArch[N]);
 void imprimirMat(t_info info[N]);
+void ordenarMat(t_info info[N]);
 int decodificarAnio(unsigned int fecha);
 int decodificarMes(unsigned int fecha);
 
@@ -50,6 +51,25 @@ void imprimirMat(t_info info[N])
         printf("%s: %d/%d\n", info[i].texto, decodificarAnio(info[i].fecha), decodificarMes(info[i].fecha));
     }
 }
+
+// void ordenarMat(t_info info[N])
+// {
+//     int i, j;
+//     char aux[N];
+
+//     for (i = 0; info[i].texto[0] != 0; i++)
+//     {
+//         for (j = i + 1; info[j].texto[0] != 0; j++)
+//         {
+//             if (info[i].texto[0] > info[j].texto[0])
+//             {
+//                 aux = info[i];
+//                 info[i] = info[j];
+//                 info[j] = aux;
+//             }
+//         }
+//     }
+// }
 
 int decodificarAnio(unsigned int fecha)
 {
