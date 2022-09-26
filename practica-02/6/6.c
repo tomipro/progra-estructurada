@@ -47,11 +47,13 @@ void cargarTabla(t_personas personas[N], char nomArch[T])
 
     arch = fopen(nomArch, "r");
 
-    r = fscanf(arch, "%d, %[^,], %[^\n]", &personas[i].dni, personas[i].nombre, personas[i].pais);
-    for (i = 1; i < N && r != EOF; i++)
+    r = fscanf(arch, "%d, %[^,], %[^\n]\n", &personas[i].dni, personas[i].nombre, personas[i].pais);
+    for (i = 1; !feof(arch); i++)
     {
-        r = fscanf(arch, "%d, %[^,], %[^\n]", &personas[i].dni, personas[i].nombre, personas[i].pais);
+        r = fscanf(arch, "%d, %[^,], %[^\n]\n", &personas[i].dni, personas[i].nombre, personas[i].pais);
     }
+
+    personas[i].dni = -999;
 
     fclose(arch);
 }
@@ -61,11 +63,11 @@ void ordenarTabla(t_personas personas[N], int col)
     int i, j, aux;
     char auxStr[T];
 
-    for (i = 0; i < N && personas[i].dni != 0; i++)
+    for (i = 0; personas[i].dni != -999; i++)
     {
-        for (j = i + 1; j < N; j++)
+        for (j = i + 1; personas[j].dni != -999; j++)
         {
-            if ((col == 1) && (personas[i].nombre[0] < personas[j].nombre[0]) || (col == 2) && (personas[i].dni < personas[j].dni) || (col == 3) && (personas[i].pais[0] < personas[j].pais[0]))
+            if ((col == 1) && (personas[i].nombre[0] > personas[j].nombre[0]) || (col == 2) && (personas[i].dni > personas[j].dni) || (col == 3) && (personas[i].pais[0] > personas[j].pais[0]))
             {
                 aux = personas[i].dni;
                 personas[i].dni = personas[j].dni;
@@ -90,7 +92,7 @@ void imprimirTabla(t_personas personas[N])
     printf("\n%-15s %-15s %-5s", "Documento", "Nombre", "Pais");
     printf("\n==========================================\n\n");
 
-    for (i = 0; personas[i].dni != 0; i++)
+    for (i = 0; personas[i].dni != -999; i++)
     {
         printf("%-15d %-15s %-5s\n", personas[i].dni, personas[i].nombre, personas[i].pais);
     }
