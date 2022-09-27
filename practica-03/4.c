@@ -7,7 +7,7 @@ struct s_carta
 };
 typedef struct s_carta t_carta;
 
-t_carta *ordenarCartas(t_carta *c1, t_carta *c2, t_carta *c3);
+void ordenarCartas(t_carta *c1, t_carta *c2, t_carta *c3);
 
 int main(void)
 {
@@ -15,23 +15,49 @@ int main(void)
     t_carta c2 = {3, 5, 'C'};
     t_carta c3 = {1, 1, 'E'};
 
+    printf("\nLas cartas son:\n");
+    printf("[1]: %d de %c\n", c1.numero, c1.palo);
+    printf("[2]: %d de %c\n", c2.numero, c2.palo);
+    printf("[3]: %d de %c\n", c3.numero, c3.palo);
+
+    ordenarCartas(&c1, &c2, &c3);
+
+    printf("\nLas cartas ordenadas son:\n");
+    printf("[1]: %d de %c\n", c1.numero, c1.palo);
+    printf("[2]: %d de %c\n", c2.numero, c2.palo);
+    printf("[3]: %d de %c\n\n", c3.numero, c3.palo);
+
     return 0;
 }
 
-t_carta *ordenarCartas(t_carta *c1, t_carta *c2, t_carta *c3)
+void ordenarCartas(t_carta *c1, t_carta *c2, t_carta *c3)
 {
-    t_carta *aux;
+    t_carta aux;
     int i, j;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 2; i++)
     {
         for (j = 0; j < 3; j++)
         {
-            if ((c1->valor > c2->valor && c2->valor > c3->valor) || (c1->valor > c2->valor && c2->valor < c3->valor) || (c1->valor < c2->valor && c2->valor > c3->valor))
+            if (c1->valor > c2->valor)
             {
-                *aux = c1[i];
-                c1[i] = c1[j];
+                aux = *c1;
+                *c1 = *c2;
+                *c2 = aux;
+            }
 
+            if (c1->valor > c3->valor)
+            {
+                aux = *c1;
+                *c1 = *c3;
+                *c3 = aux;
+            }
+
+            if (c2->valor > c3->valor)
+            {
+                aux = *c2;
+                *c2 = *c3;
+                *c3 = aux;
             }
         }
     }
