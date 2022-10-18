@@ -4,8 +4,10 @@
 | ----------- | ----------- |
 | **DURACIÓN:** Semestral TOTAL DE HS: 75      | **DURACIÓN:** 15 semanas       |
 | **Hs. TEÓRICAS:** 45   | **Hs. PRÁCTICAS:** 30        |
-| **Horarios Teoria:** Jueves 14:15 - 16:45 LIR A | **Horarios Practica:** Lunes 07:45 - 10:15 S57 Magno |
+| **Horarios Teoria:** Jueves 14:15 - 16:45 S57 Magno | **Horarios Practica:** Lunes 07:45 - 10:15 LIR A |
 
+***Estado de guias resueltas:***
+![80%](https://progress-bar.dev/80/?width=250)
 
 ## Programa de la materia
 
@@ -51,9 +53,9 @@ también le sirvan para organizan objetos físicos (FIFO, LIFO y otros.)
 
 **Fechas de parciales:**
 
-* 1º Parcial Practico PP01 (U1 + U2): 26/09/2022
-* 2º Parcial Practica PP02 (U3 + U4 + U5): 31/10/2022
-* Recuperatorios RPP01 RPP02: 14/11/2022
+- [x] 1º Parcial Practico PP01 (U1 + U2): 26/09/2022 **NOTA:** 8
+- [ ] 2º Parcial Practica PP02 (U3 + U4 + U5): 31/10/2022
+- [ ] Recuperatorios RPP01 RPP02: 14/11/2022
 
 http://bit.ly/uca-pe
 
