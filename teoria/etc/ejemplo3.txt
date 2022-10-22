@@ -1,0 +1,4 @@
+marcador violeta,32,83.1,9,hola
+lapiz negro,73,94.2,4,chau
+regla,14,42.5,10,tomas
+resaltador,16,31.2,3,mariano
