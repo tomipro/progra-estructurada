@@ -21,17 +21,18 @@ void leerStrDeArch(FILE *arch, char **arrC, char sep);
 void push(t_nodo *pila, t_refran carga);
 void pilaAlista(t_nodo *nodo);
 t_refran pop(t_nodo *pila);
+int contarCaracter(t_nodo *nodo, char car);
 void imprimirRecurs(t_nodo lista);
 
 int main(void)
 {
-    t_nodo lista = NULL;
-    t_nodo pila = NULL;
+    t_nodo n = NULL;
 
-    cargarPilaDeArch("./refranes.txt", &lista);
-    pilaAlista(&lista);
+    cargarPilaDeArch("./refranes.txt", &n);
+    pilaAlista(&n);
 
-    imprimirRecurs(lista);
+    printf("%-50s%-10s%-10s\n\n", "Refran", "Caracter", "Cantidad");
+    imprimirRecurs(n);
 
     return 0;
 }
@@ -93,7 +94,6 @@ void cargarPilaDeArch(const char *nomArch, t_nodo *pila)
     fclose(arch);
 }
 
-
 void pilaAlista(t_nodo *nodo)
 {
     t_nodo aux = NULL;
@@ -112,7 +112,7 @@ void imprimirRecurs(t_nodo lista)
 {
     if (lista)
     {
-        printf("%s,%c\n", lista->ref.txt, lista->ref.car);
+        printf("%-50s%-10c%-10d\n", lista->ref.txt, lista->ref.car, lista->ref.cantidad_caracter);
         imprimirRecurs(lista->sig);
     }
 }

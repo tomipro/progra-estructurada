@@ -1,0 +1,4 @@
+hola,123,chau
+tomas,22,prodan
+progra estructurada,99,uca
+ingenieria,456,en informatica

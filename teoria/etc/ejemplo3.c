@@ -22,25 +22,30 @@ typedef struct s_nodo *t_nodo;
 void leerStrDeArch(FILE *arch, char **arrC, char sep);
 void cargarListaDeArch(t_nodo *lista, char *nomArch, int campo, int orden);
 void insertarEnListaOrdenado(t_nodo *nodo, t_productos carga, int campo, int orden);
+void cargarEnListaUltimo(t_nodo *nodo, t_productos carga);
 void imprimirListaR(t_nodo lista);
+void cargarArch(const char *nomArch, t_nodo *lista);
 
 int main(void)
 {
     t_nodo lista = NULL;
-    char *nomArch = "./ejemplo1.txt";
+    char *nomArch = "./ejemplo3.txt";
 
     cargarListaDeArch(&lista, nomArch, 3, 1);
     imprimirListaR(lista);
+    // cargarArch(nomArch, &lista);
+    // imprimirListaR(lista);
 
     return 0;
 }
 
 void leerStrDeArch(FILE *arch, char **arrC, char sep)
 {
-    char c;
+    char c, x;
     int i = 0;
 
     *(arrC) = malloc(sizeof(char));
+    
     if (!feof(arch))
     {
         c = fgetc(arch);
@@ -59,7 +64,7 @@ void leerStrDeArch(FILE *arch, char **arrC, char sep)
 void cargarListaDeArch(t_nodo *lista, char *nomArch, int campo, int orden)
 {
     FILE *arch;
-    t_productos carga = {NULL, 0, 0, 0, NULL};
+    t_productos carga;
 
     arch = fopen(nomArch, "r");
 
@@ -67,8 +72,9 @@ void cargarListaDeArch(t_nodo *lista, char *nomArch, int campo, int orden)
     {
         leerStrDeArch(arch, &(carga.articulo), ',');
         fscanf(arch, "%d,%f,%d,", &(carga.cant), &(carga.precio), &(carga.id));
-        // leerStrDeArch(arch, &(carga.articulo), ',');
-        insertarEnListaOrdenado(lista, carga, campo, orden);
+        leerStrDeArch(arch, &(carga.info), '\n');
+        // insertarEnListaOrdenado(lista, carga, campo, orden);
+        cargarEnListaUltimo(lista, carga);
     }
 
     fclose(arch);
@@ -126,7 +132,64 @@ void imprimirListaR(t_nodo lista)
 {
     if (lista)
     {
-        printf("%s,%d,%.1f,%d,%s\n", lista->content.articulo, lista->content.cant, lista->content.precio, lista->content.id,lista->content.info);
+        printf("%s,%d,%.1f,%d,%s\n", lista->content.articulo, lista->content.cant, lista->content.precio, lista->content.id, lista->content.info);
         imprimirListaR(lista->sig);
     }
 }
+
+void cargarEnListaUltimo(t_nodo *nodo, t_productos carga)
+{
+    if (!*nodo)
+    {
+        *nodo = (t_nodo)malloc(sizeof(struct s_nodo));
+        (*nodo)->content = carga;
+        (*nodo)->sig = NULL;
+    }
+
+    else
+    {
+        cargarEnListaUltimo(&(*nodo)->sig, carga);
+    }
+}
+
+// void cargarArch(const char *nomArch, t_nodo *lista)
+// {
+//     FILE *arch;
+//     t_productos aux;
+//     int i;
+
+//     arch = fopen(nomArch, "r");
+
+//     char c = fgetc(arch);
+//     while (!feof(arch))
+//     {
+//         aux.articulo = malloc(sizeof(char));
+
+//         for (i = 0; c != ','; i++)
+//         {
+//             aux.articulo[i] = c;
+//             aux.articulo = realloc(aux.articulo, i + 2);
+//             c = fgetc(arch);
+//         }
+//         aux.articulo[i] = 0;
+
+//         fscanf(arch, "%d,%f,%d,", &aux.cant, &aux.precio, &aux.id);
+
+//         aux.info = malloc(sizeof(char));
+
+//         c = fgetc(arch);
+//         for (i = 0; c != '\n'; i++)
+//         {
+//             aux.info[i] = c;
+//             aux.info = realloc(aux.info, i + 2);
+//             c = fgetc(arch);
+//         }
+//         aux.info[i] = 0;
+
+//         cargarEnListaUltimo(lista, aux);
+//         c = fgetc(arch);
+//     }
+
+//     fclose(arch);
+// }
+
