@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct s_contenido
 {
     char *nombre;
-    int edad;
+    char letra;
 };
 typedef struct s_contenido t_contenido;
 
@@ -15,33 +16,33 @@ struct s_nodo
 };
 typedef struct s_nodo *t_nodo;
 
-void cargarArch(const char *nomArch, t_nodo *lista);
-void push(t_nodo *pila, t_contenido carga);
-t_contenido pop(t_nodo *pila);
-void pushOrdenado(t_nodo *nodo, t_contenido carga);
+void push(t_nodo *nodo, t_contenido carga);
+t_contenido pop(t_nodo *nodo);
+void cargarArch(char const *nomArch, t_nodo *nodo);
 void pilaAlista(t_nodo *nodo);
+int cumpleCondicion(t_contenido carga);
 void imprimirR(t_nodo lista);
 
 int main(void)
 {
     t_nodo n = NULL;
 
-    cargarArch("./02.txt", &n);
-    printf("\nPila del archivo:\n");
+    cargarArch("./02.2.txt", &n);
+    printf("\nPila original:\n");
     imprimirR(n);
 
-    printf("\nPila a lista ordenada:\n");
+    printf("\nPila pasada a lista filtrada:\n");
     pilaAlista(&n);
     imprimirR(n);
 
     return 0;
 }
 
-void cargarArch(const char *nomArch, t_nodo *lista)
+void cargarArch(char const *nomArch, t_nodo *nodo)
 {
     FILE *arch;
-    t_contenido aux;
     int i;
+    t_contenido aux;
 
     arch = fopen(nomArch, "r");
 
@@ -58,9 +59,9 @@ void cargarArch(const char *nomArch, t_nodo *lista)
         }
         aux.nombre[i] = 0;
 
-        fscanf(arch, "%d\n", &aux.edad);
+        fscanf(arch, "%c\n", &aux.letra);
 
-        push(lista, aux);
+        push(nodo, aux);
 
         c = fgetc(arch);
     }
@@ -68,37 +69,43 @@ void cargarArch(const char *nomArch, t_nodo *lista)
     fclose(arch);
 }
 
-void push(t_nodo *pila, t_contenido carga)
+void push(t_nodo *nodo, t_contenido carga)
 {
     t_nodo aux = (t_nodo)malloc(sizeof(struct s_nodo));
     aux->content = carga;
-    aux->sig = (*pila);
-    (*pila) = aux;
+    aux->sig = (*nodo);
+    (*nodo) = aux;
 }
 
-void pushOrdenado(t_nodo *nodo, t_contenido carga)
+int cumpleCondicion(t_contenido carga)
 {
-    if (!*nodo || (*nodo)->content.edad > carga.edad)
+    int i, res = 0;
+    int cont = 0;
+
+    while (i < strlen(carga.nombre))
     {
-        t_nodo aux = (t_nodo)malloc(sizeof(struct s_nodo));
-        aux->sig = (*nodo);
-        aux->content = carga;
-        *nodo = aux;
+        if (carga.nombre[i] == carga.letra)
+        {
+            cont++;
+        }
+        i++;
     }
 
-    else
+    if (cont > 2)
     {
-        pushOrdenado(&((*nodo)->sig), carga);
+        res = 1;
     }
+
+    return res;
 }
 
-t_contenido pop(t_nodo *pila)
+t_contenido pop(t_nodo *nodo)
 {
     t_contenido carga;
-    t_nodo aux = *pila;
+    t_nodo aux = *nodo;
 
     carga = aux->content;
-    *pila = aux->sig;
+    *nodo = aux->sig;
     free(aux);
 
     return carga;
@@ -112,8 +119,12 @@ void pilaAlista(t_nodo *nodo)
     while (*nodo)
     {
         carga = pop(nodo);
-        pushOrdenado(&lista, carga);
+        if (cumpleCondicion(carga))
+        {
+            push(&lista, carga);
+        }
     }
+
     *nodo = lista;
 }
 
@@ -121,7 +132,7 @@ void imprimirR(t_nodo lista)
 {
     if (lista)
     {
-        printf("%s,%d\n", lista->content.nombre, lista->content.edad);
+        printf("%s,%c\n", lista->content.nombre, lista->content.letra);
         imprimirR(lista->sig);
     }
 }
