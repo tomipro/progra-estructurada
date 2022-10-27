@@ -15,29 +15,42 @@ struct s_nodo
 };
 typedef struct s_nodo *t_nodo;
 
-void cargarArch(const char *nomArch, t_nodo *lista);
-void push(t_nodo *pila, t_contenido carga);
-t_contenido pop(t_nodo *pila);
-void pushOrdenado(t_nodo *nodo, t_contenido carga);
-void pilaAlista(t_nodo *nodo);
+void cargarArch(const char *nomArch, t_nodo *nodo);
+void push(t_nodo *nodo, t_contenido carga);
+t_contenido pop(t_nodo *nodo);
+void cargarListaOrd(t_nodo *nodo, t_contenido carga);
 void imprimirR(t_nodo lista);
+void desapilarAlista(t_nodo *pila, t_nodo *lista);
 
 int main(void)
 {
-    t_nodo n = NULL;
+    t_nodo pila = NULL;
+    t_nodo lista = NULL;
 
-    cargarArch("./02.txt", &n);
+    cargarArch("./02.txt", &pila);
     printf("\nPila del archivo:\n");
-    imprimirR(n);
+    imprimirR(pila);
 
-    printf("\nPila a lista ordenada:\n");
-    pilaAlista(&n);
-    imprimirR(n);
+    desapilarAlista(&pila, &lista);
+
+    printf("\nLista ordenada:\n");
+    imprimirR(lista);
 
     return 0;
 }
 
-void cargarArch(const char *nomArch, t_nodo *lista)
+void desapilarAlista(t_nodo *pila, t_nodo *lista)
+{
+    t_contenido contenido;
+
+    while (*pila)
+    {
+        contenido = pop(pila);
+        cargarListaOrd(lista, contenido);
+    }
+}
+
+void cargarArch(const char *nomArch, t_nodo *nodo)
 {
     FILE *arch;
     t_contenido aux;
@@ -60,7 +73,7 @@ void cargarArch(const char *nomArch, t_nodo *lista)
 
         fscanf(arch, "%d\n", &aux.edad);
 
-        push(lista, aux);
+        push(nodo, aux);
 
         c = fgetc(arch);
     }
@@ -68,15 +81,15 @@ void cargarArch(const char *nomArch, t_nodo *lista)
     fclose(arch);
 }
 
-void push(t_nodo *pila, t_contenido carga)
+void push(t_nodo *nodo, t_contenido carga)
 {
     t_nodo aux = (t_nodo)malloc(sizeof(struct s_nodo));
     aux->content = carga;
-    aux->sig = (*pila);
-    (*pila) = aux;
+    aux->sig = (*nodo);
+    (*nodo) = aux;
 }
 
-void pushOrdenado(t_nodo *nodo, t_contenido carga)
+void cargarListaOrd(t_nodo *nodo, t_contenido carga)
 {
     if (!*nodo || (*nodo)->content.edad > carga.edad)
     {
@@ -88,33 +101,20 @@ void pushOrdenado(t_nodo *nodo, t_contenido carga)
 
     else
     {
-        pushOrdenado(&((*nodo)->sig), carga);
+        cargarListaOrd(&((*nodo)->sig), carga);
     }
 }
 
-t_contenido pop(t_nodo *pila)
+t_contenido pop(t_nodo *nodo)
 {
     t_contenido carga;
-    t_nodo aux = *pila;
+    t_nodo aux = *nodo;
 
     carga = aux->content;
-    *pila = aux->sig;
+    *nodo = aux->sig;
     free(aux);
 
     return carga;
-}
-
-void pilaAlista(t_nodo *nodo)
-{
-    t_nodo lista = NULL;
-    t_contenido carga;
-
-    while (*nodo)
-    {
-        carga = pop(nodo);
-        pushOrdenado(&lista, carga);
-    }
-    *nodo = lista;
 }
 
 void imprimirR(t_nodo lista)

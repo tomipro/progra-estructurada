@@ -22,20 +22,38 @@ void cargarArch(char const *nomArch, t_nodo *nodo);
 void pilaAlista(t_nodo *nodo);
 int cumpleCondicion(t_contenido carga);
 void imprimirR(t_nodo lista);
+void desapilarAlista(t_nodo *pila, t_nodo *lista);
 
 int main(void)
 {
-    t_nodo n = NULL;
+    t_nodo pila = NULL;
+    t_nodo lista = NULL;
 
-    cargarArch("./02.2.txt", &n);
+    cargarArch("./02.2.txt", &pila);
     printf("\nPila original:\n");
-    imprimirR(n);
+    imprimirR(pila);
 
     printf("\nPila pasada a lista filtrada:\n");
-    pilaAlista(&n);
-    imprimirR(n);
+    // pilaAlista(&n);
+    desapilarAlista(&pila, &lista);
+
+    imprimirR(lista);
 
     return 0;
+}
+
+void desapilarAlista(t_nodo *pila, t_nodo *lista)
+{
+    t_contenido contenido;
+
+    while (*pila)
+    {
+        contenido = pop(pila);
+        if (cumpleCondicion(contenido))
+        {
+            push(lista, contenido);
+        }
+    }
 }
 
 void cargarArch(char const *nomArch, t_nodo *nodo)
