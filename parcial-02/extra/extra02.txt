@@ -1,0 +1,5 @@
+7,Papas Lays,242.99
+11,Galletitas Oreo,142.30
+3,Pepsi 1.5L,256.99
+8,Don Satur,99.99
+2,Vino Toro,15.99

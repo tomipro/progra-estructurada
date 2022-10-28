@@ -1,0 +1,10 @@
+Juan Martin De La Fuente,10,5,7,4,-1
+Maria Susana Gonzalez Calderon,6,7,8,7,-1
+Clara Eliana Martinez,4,7,7,6,-1
+Pedro Santos,2,5,6,7,-1
+Ana Sofia Cordoba,2,7,4,6,-1
+Sebastian Roberto Rojas,8,7,7,4,-1
+Pedro Gonzalez,9,6,7,7,-1
+Tomas Barredo,6,7,2,4,-1
+Claudia Diaz,5,8,7,4,-1
+Maria Sanchez,4,7,7,9,-1

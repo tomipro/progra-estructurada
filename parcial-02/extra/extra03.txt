@@ -1,0 +1,174 @@
+archivo con nombres:
+tomas prodan
+hola chau
+otro nombre
+nombre Apellido
+
+
+archivo con notas:
+6,7,9
+10,8,5
+9,2,10
+4,7,7
+
+funcion imprimir
+funcion calcularPromedio
+cargar en una lista
+
+
+lista ordenada por nombre
+imprimir
+
+eliminar promedios menores a 6 
+imprimir
+
+/////////// https://codeshare.io/qPWbzq
+
+
+6,7,8
+4,7,7
+2,5,6
+2,7,4
+8,7,7
+9,6,7
+6,7,2
+5,8,7
+4,7,7
+
+
+Gonzalez Calderon Sol
+Martinez Clara Eliana
+Santos Maria
+Cordoba Sofia Ana
+Rojas Sebastian Roberto
+Gonzalez Pedro
+Barredo Tomas
+Diaz Claudia
+Sanchez Betina
+
+
+/**
+Apellido: Catania
+Nombre: Martina
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct s_dato{
+	char alumno[60];
+	int nota[4];    //cada posición es una nota.El terminador es -1
+	float prom;
+};
+typedef struct s_dato t_dato;
+
+struct s_nodo{
+	t_dato dato;
+	struct s_nodo* sig;
+};
+typedef struct s_nodo* t_nodo;
+
+void imprimirLista(t_nodo ls){
+	if(ls!=NULL){
+		printf("\n%25s",(ls)->dato.alumno);
+		for(int i=0;((ls)->dato).nota[i]!=-1;i++)
+			printf("%4d",((ls)->dato).nota[i]);
+		printf("%7.2f",((ls)->dato).prom);
+		imprimirLista(ls->sig);
+	}	
+}
+	
+	float calcularProm(int notas[4]){
+		float res = 0;
+		int i = 0;
+		while(notas[i]!=-1){
+			res = res + notas[i];
+			i++;
+		}
+		return res/3;
+	}
+		
+		void auxiliarLst(t_nodo* nodo, t_dato info){
+			t_nodo aux = NULL;
+			if((*nodo)==NULL){
+				(*nodo)=(t_nodo)malloc(sizeof(struct s_nodo));
+				(*nodo)->dato = info;
+				(*nodo)->sig=NULL;
+			}
+			else{
+				//INSERTO EN ORDEN ALFABETICO
+				if(strcmp(info.alumno,(*nodo)->dato.alumno)<0){
+					aux = (t_nodo)malloc(sizeof(struct s_nodo));
+					aux->dato = info;
+					aux->sig = (*nodo);
+					(*nodo) = aux;
+				}
+				else{
+					auxiliarLst(&((*nodo)->sig),info);
+				}
+			}
+		}
+			void cargarLista(t_nodo* ls,char* nomA,char* nomN){
+				char r;
+				t_dato aux = {{'\0'},{'\0'},0};
+				int i;
+				FILE* nombres = fopen(nomA,"r");
+				FILE* notas = fopen(nomN,"r");
+				if(nombres != NULL && notas != NULL){
+					//leo archivo de nombres, luego de notas, y cargo a lista
+					r = fgetc(nombres);
+					while(r!=EOF){
+						//leo hasta encontrar EOF
+						i=0;
+						while(r!='\n'&&r!='\r'){
+							//leo hasta encontrar una nueva linea, que separa los nombres
+							aux.alumno[i] = r;
+							i++;
+							r = fgetc(nombres);
+						}
+						aux.alumno[i] = '\0';
+						//leo notas
+						fscanf(notas,"%d,%d,%d\n",&(aux.nota[0]),&(aux.nota[1]),&(aux.nota[2]));
+						aux.nota[3]= -1;
+						aux.prom = calcularProm(aux.nota);
+						auxiliarLst(ls,aux);
+						r = fgetc(nombres);
+					}
+				}
+				fclose(nombres);
+				fclose(notas);
+			}
+				
+				void eliminarPromedios(t_nodo* ls,float proInf,float proSup ){
+					t_nodo aux = NULL;
+					if((*ls)!=NULL){
+						//si no estoy al final de la lista
+						if((*ls)->dato.prom < proInf || (*ls)->dato.prom > proSup){
+							//si es MENOR que el limite inferior O es MAYOR al limite superior
+							eliminarPromedios(&((*ls)->sig),proInf,proSup);
+						}
+						else{
+							//si esta en el intervalo
+							aux = (t_nodo)malloc(sizeof(struct s_nodo));
+							aux = (*ls);
+							(*ls) = aux->sig;
+							free(aux);
+							eliminarPromedios(ls,proInf,proSup);
+						}
+					}
+				}
+					
+					int main() {
+						t_nodo ls=NULL;
+						cargarLista(&ls,"alumnos.txt","notas.txt");
+						printf("LISTA original ordenada por Nombre\n");
+						imprimirLista(ls);
+						float inf=0;float sup=6;
+						eliminarPromedios(&ls,inf,sup);
+						printf("\n\nLISTA anterior modificada con promedios \n");
+						printf("entre %0.2f y %0.2f eliminados\n",inf,sup);
+						imprimirLista(ls);
+						return 0;
+					}
+					
+
