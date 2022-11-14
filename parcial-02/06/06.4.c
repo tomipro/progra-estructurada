@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct s_contenido
+{
+    char *loc;
+    float sup;
+    int pob;
+    int anio;
+};
+typedef struct s_contenido t_contenido;
+
+struct s_nodo
+{
+    t_contenido content;
+    struct s_nodo *sig;
+};
+typedef struct s_nodo *t_nodo;
+
+void insertarOrdenado(t_nodo *nodo, t_contenido carga);
+void push(t_nodo *nodo, t_contenido carga);
+void imprimirR(t_nodo lista);
+void eliminar(t_nodo *nodo);
+
+void cargarDatos(t_nodo *nodo)
+{
+    FILE *arch;
+    int i, c;
+    t_contenido aux;
+
+    arch = fopen("./06.txt", "r");
+
+    while (!feof(arch))
+    {
+        aux.loc = malloc(sizeof(char));
+        c = fgetc(arch);
+
+        for (i = 0; c != ','; i++)
+        {
+            aux.loc[i] = c;
+            aux.loc = realloc(aux.loc, i + 2);
+            c = fgetc(arch);
+        }
+        aux.loc[i] = 0;
+
+        fscanf(arch, "%f,%d,%d\n", &aux.sup, &aux.pob, &aux.anio);
+
+        insertarOrdenado(nodo, aux);
+    }
+
+    fclose(arch);
+}
+
+void insertarOrdenado(t_nodo *nodo, t_contenido carga)
+{
+    t_nodo aux;
+
+    if (!*nodo || (*nodo)->content.pob < carga.pob)
+    {
+        aux = (t_nodo)malloc(sizeof(struct s_nodo));
+        aux->content = carga;
+        aux->sig = (*nodo);
+        (*nodo) = aux;
+    }
+
+    else
+    {
+        insertarOrdenado(&((*nodo)->sig), carga);
+    }
+}
+
+void imprimirR(t_nodo lista)
+{
+    if (lista)
+    {
+        printf("%-17s%8.2f%10d%8d\n", lista->content.loc, lista->content.sup, lista->content.pob, lista->content.anio);
+        imprimirR(lista->sig);
+    }
+}
+
+void push(t_nodo *nodo, t_contenido carga)
+{
+    t_nodo aux;
+
+    aux = (t_nodo)malloc(sizeof(struct s_nodo));
+    aux->content = carga;
+    aux->sig = (*nodo);
+    (*nodo) = aux;
+}
+
+void listaApila(t_nodo *lista, t_nodo *pila)
+{
+    if (*lista)
+    {
+        push(pila, (*lista)->content);
+        listaApila(&((*lista)->sig), pila);
+    }
+}
+
+void eliminar(t_nodo *nodo)
+{
+    t_nodo aux;
+
+    if (*nodo)
+    {
+        if ((*nodo)->content.anio != 2010)
+        {
+            eliminar(&((*nodo)->sig));
+        }
+
+        else
+        {
+            aux = (*nodo);
+            (*nodo) = (*nodo)->sig;
+            free(aux);
+            eliminar(nodo);
+        }
+    }
+}
+
+int main(void)
+{
+    t_nodo lista = NULL;
+    t_nodo pila = NULL;
+
+    printf("\nLISTA\n\n");
+    cargarDatos(&lista);
+    imprimirR(lista);
+
+    printf("\nPILA\n\n");
+    listaApila(&lista, &pila);
+    imprimirR(pila);
+
+    printf("\nLISTA 02\n\n");
+    eliminar(&lista);
+    imprimirR(lista);
+
+    return 0;
+}

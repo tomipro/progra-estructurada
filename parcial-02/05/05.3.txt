@@ -1,0 +1,7 @@
+Piensa, suenia, cree y atrevete;50;7,8,5;hola mas texto
+Con autodisciplina casi todo es posible;40;6,9,2;jejox
+No importa lo lento que vayas mientras que no pares;60;8,2,2;programacion estruct
+Antes de hablar piensa, pero antes de pensar lee;40;2,6,10;lenguaje c
+Un viaje de mil millas empieza con un primer paso;60;4,4,4;python info gral
+Comienza donde estes, usa lo que tienes, haz lo que puedas;60;7,9,2;licciardo
+Solo una cosa convierte en imposible un suenio: el miedo al fracaso;40;4,10,8;mariano

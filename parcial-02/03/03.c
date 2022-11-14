@@ -56,7 +56,9 @@ void cargarArch(const char *nomArch, t_nodo *nodo)
         }
         aux.nombre[i] = 0;
 
-        fscanf(arch, "%d,%d,%d,%d,%d\n", aux.notas, aux.notas, aux.notas, aux.notas, aux.notas);
+        aux.notas = malloc(sizeof(int));
+        fscanf(arch, "%d,%d,%d,%d\n", &aux.notas[0], &aux.notas[1], &aux.notas[2], &aux.notas[3]);
+        aux.notas[4] = -1;
 
         push(nodo, aux);
 
@@ -68,7 +70,7 @@ void imprimirListaR(t_nodo lista)
 {
     if (lista)
     {
-        printf("%-40s%-10d,%d,%d,%d,%d\n", lista->content.nombre, lista->content.notas[0], lista->content.notas[1], lista->content.notas[2], lista->content.notas[3], lista->content.notas[4]);
+        printf("%-40s%-10d%d,%d,%d%6d\n", lista->content.nombre, lista->content.notas[0], lista->content.notas[1], lista->content.notas[2], lista->content.notas[3], lista->content.estado);
         imprimirListaR(lista->sig);
     }
 }
