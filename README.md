@@ -7,7 +7,7 @@
 | **Horarios Teoria:** Jueves 14:15 - 16:45 S57 Magno | **Horarios Practica:** Lunes 07:45 - 10:15 LIR A |
 
 ***Estado de guias resueltas:***
-![80%](https://progress-bar.dev/80/?width=250)
+![90%](https://progress-bar.dev/90/?width=250)
 
 ## Programa de la materia
 
@@ -51,11 +51,14 @@ computadoras, en particular el Lenguaje ANSI C.
 también le sirvan para organizan objetos físicos (FIFO, LIFO y otros.)
 ## Información de interés
 
-**Fechas de parciales:**
+**Fechas de examenes:**
 
-- [x] 1º Parcial Practico PP01 (U1 + U2): 26/09/2022 **NOTA:** 8
-- [ ] 2º Parcial Practica PP02 (U3 + U4 + U5): 31/10/2022
-- [ ] Recuperatorios RPP01 RPP02: 14/11/2022
+- [x] [1º Parcial Practico PP01](https://github.com/tomipro/progra-estructurada/tree/main/parcial-01)  (U1 + U2): 26/09/2022
+- [x] [2º Parcial Practica PP02](https://github.com/tomipro/progra-estructurada/tree/main/parcial-02) (U3 + U4 + U5): 31/10/2022
+- [x] Recuperatorios RPP01 RPP02: 14/11/2022
+- [ ] Final 
+  - 1º Fecha: 30/11/2022 8:30 hs.
+  - 2º Fecha: 14/12/2022 8:30 hs.
 
 http://bit.ly/uca-pe
 
